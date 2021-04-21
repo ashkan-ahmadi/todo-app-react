@@ -1,34 +1,24 @@
 {
   "tasks": [
     {
-      "title": "qwe",
+      "title": "Take trash out",
       "urgent": false,
       "id": 1
     },
     {
-      "title": "qew",
-      "urgent": false,
+      "title": "Pay rent",
+      "urgent": true,
       "id": 2
     },
     {
-      "title": "qwe",
+      "title": "Download app",
       "urgent": false,
       "id": 3
     },
     {
-      "title": "wqe",
+      "title": "Study",
       "urgent": false,
       "id": 4
-    },
-    {
-      "title": "qwe",
-      "urgent": true,
-      "id": 5
-    },
-    {
-      "title": "qwe",
-      "urgent": true,
-      "id": 6
     }
   ]
 }

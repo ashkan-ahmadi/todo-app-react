@@ -14,25 +14,35 @@ const NewTaskForm = ({
   }
 
   return (
-    <form onSubmit={onSubmit}>
-      <input
-        type="text"
-        placeholder="To-do title"
-        id="title"
-        value={taskTitle}
-        onChange={handleTitle}
-        autoComplete="off"
-      />
-      <br />
-      <input
-        type="checkbox"
-        id="urgent"
-        checked={taskUrgent}
-        onChange={handleUrgent}
-      />{' '}
-      <label htmlFor="urgent">Urgent</label>
-      <br />
-      <button type="submit">Add to do</button>
+    <form onSubmit={onSubmit} className="mb-3">
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          placeholder="Task name"
+          id="title"
+          className="form-control"
+          value={taskTitle}
+          onChange={handleTitle}
+          autoComplete="off"
+          autoFocus="true"
+        />
+        <label htmlFor="title">Task name</label>
+      </div>
+      <div className="form-check mb-3">
+        <input
+          type="checkbox"
+          id="urgent"
+          className="form-check-input"
+          checked={taskUrgent}
+          onChange={handleUrgent}
+        />{' '}
+        <label htmlFor="urgent" className="form-check-label">
+          Urgent?
+        </label>
+      </div>
+      <button type="submit" className="btn btn-primary btn-lg">
+        Add to do
+      </button>
     </form>
   )
 }

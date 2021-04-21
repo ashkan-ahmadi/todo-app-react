@@ -1,0 +1,24 @@
+.task {
+  margin-bottom: 0.4rem;
+  padding: 1rem;
+  border-radius: 0.3rem;
+  list-style-type: none;
+  transition: 0.15s ease-out;
+}
+
+.task--not-urgent {
+  background: #d7ffd7;
+}
+
+.task--not-urgent:hover {
+  background-color: #d0fad0;
+}
+
+.task--urgent {
+  background-color: #d82525;
+  color: #fff;
+}
+
+.task--urgent:hover {
+  background-color: #c21b1b;
+}

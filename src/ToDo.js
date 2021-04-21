@@ -3,6 +3,7 @@ import NewTaskForm from './components/AddNewTask'
 import PageHeader from './components/PageHeader'
 import Tasks from './components/Tasks'
 import TaskCounter from './components/TaskCounter'
+import bootstrap from 'bootstrap/dist/css/bootstrap.min.css'
 
 const ToDo = () => {
   const [tasks, setTasks] = useState([])
@@ -57,16 +58,18 @@ const ToDo = () => {
 
   return (
     <>
-      <PageHeader text="To Do List" />
-      <Tasks tasks={tasks} />
-      <TaskCounter tasks={tasks} />
-      <NewTaskForm
-        onSubmit={handleFormSubmission}
-        taskTitle={taskTitle}
-        taskUrgent={taskUrgent}
-        setTaskTitle={setTaskTitle}
-        setTaskUrgent={setTaskUrgent}
-      />
+      <div className="container mt-3">
+        <PageHeader text="To Do List" />
+        <NewTaskForm
+          onSubmit={handleFormSubmission}
+          taskTitle={taskTitle}
+          taskUrgent={taskUrgent}
+          setTaskTitle={setTaskTitle}
+          setTaskUrgent={setTaskUrgent}
+        />
+        <TaskCounter tasks={tasks} />
+        <Tasks tasks={tasks} />
+      </div>
     </>
   )
 }
