@@ -1,24 +1,3 @@
 {
-  "tasks": [
-    {
-      "title": "Take trash out",
-      "urgent": false,
-      "id": 1
-    },
-    {
-      "title": "Pay rent",
-      "urgent": true,
-      "id": 2
-    },
-    {
-      "title": "Download app",
-      "urgent": false,
-      "id": 3
-    },
-    {
-      "title": "Study",
-      "urgent": false,
-      "id": 4
-    }
-  ]
+  "tasks": []
 }
