@@ -3,24 +3,11 @@ import NewTaskForm from './components/AddNewTask'
 import PageHeader from './components/PageHeader'
 import Tasks from './components/Tasks'
 import TaskCounter from './components/TaskCounter'
-import bootstrap from 'bootstrap/dist/css/bootstrap.min.css'
 
 const ToDo = () => {
   const [tasks, setTasks] = useState([])
   const [taskTitle, setTaskTitle] = useState('')
   const [taskUrgent, setTaskUrgent] = useState(false)
-
-  const addTaskToDatabase = async (taskTitle, taskUrgent) => {
-    let request = await fetch('http://localhost:5000/tasks', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify({ title: taskTitle, urgent: taskUrgent }),
-    }).then((res) => res.json())
-
-    console.log(request)
-  }
 
   useEffect(() => {
     const fetchTasksfromDatabase = async () => {
@@ -37,20 +24,31 @@ const ToDo = () => {
     e.preventDefault()
 
     if (taskTitle) {
-      setTasks((prev) =>
-        prev.concat({
-          id: Math.random(),
-          title: taskTitle,
-          urgent: taskUrgent,
-        })
-      )
+      const addTaskToDatabase = async (taskTitle, taskUrgent) => {
+        let request = await fetch('http://localhost:5000/tasks', {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify({ title: taskTitle, urgent: taskUrgent }),
+        }).then((res) => res.json())
+        // return request
 
+        console.log(request.id)
+
+        setTasks((prev) =>
+          prev.concat({
+            id: request.id,
+            title: taskTitle,
+            urgent: taskUrgent,
+          })
+        )
+
+        setTaskTitle('')
+        setTaskUrgent(false)
+        e.target[0].focus()
+      }
       addTaskToDatabase(taskTitle, taskUrgent)
-
-      setTaskTitle('')
-      setTaskUrgent(false)
-
-      e.target[0].focus()
     } else {
       e.target[0].focus()
     }
