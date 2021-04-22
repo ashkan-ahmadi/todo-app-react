@@ -2,7 +2,7 @@ const Task = ({ task }) => {
   return (
     <li
       key={task.id}
-      className={task.urgent ? 'task task--urgent' : 'task task--not-urgent'}
+      className={`task ${task.urgent ? 'task--urgent' : 'task--not-urgent'}`}
     >
       {task.title}
     </li>
