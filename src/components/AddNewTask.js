@@ -15,7 +15,7 @@ const NewTaskForm = ({
 
   return (
     <form onSubmit={onSubmit} className="mb-3">
-      <div class="form-floating mb-3">
+      <div className="form-floating mb-3">
         <input
           type="text"
           placeholder="Task name"
@@ -24,7 +24,7 @@ const NewTaskForm = ({
           value={taskTitle}
           onChange={handleTitle}
           autoComplete="off"
-          autoFocus="true"
+          autoFocus={true}
         />
         <label htmlFor="title">Task name</label>
       </div>
