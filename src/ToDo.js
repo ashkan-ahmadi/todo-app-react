@@ -17,9 +17,7 @@ const ToDo = () => {
     const request = await fetch(dbURL)
     const data = await request.json()
     setTasks(data)
-    // setTimeout(() => {
     setLoading(false)
-    // }, 1000)
   }
 
   const addTaskToDatabase = async (taskTitle, taskUrgent) => {
@@ -43,21 +41,27 @@ const ToDo = () => {
     if (taskTitle) {
       setLoading(true) // fetchTasksfromDatabase() wll set it to false when it's done
 
-      addTaskToDatabase(taskTitle, taskUrgent).then((res) => {
-        if (res.id) {
-          fetchTasksfromDatabase()
-        }
-      })
+      async function addAndFetchTasks() {
+        const newTaskResponse = await addTaskToDatabase(taskTitle, taskUrgent)
 
-      setTaskTitle('')
-      setTaskUrgent(false)
-
-      /*       addTaskToDatabase(taskTitle, taskUrgent).then((res) => {
-        if (res.id) {
+        if (newTaskResponse.id) {
           fetchTasksfromDatabase()
+
+          setTaskTitle('')
+          setTaskUrgent(false)
+
+          e.target[0].focus()
+        } else {
+          setLoading(false)
+
+          console.error(
+            'There was a problem with adding the task to the database!'
+          )
+          e.target[0].focus()
         }
-      }) */
-      e.target[0].focus()
+      }
+
+      addAndFetchTasks()
     } else {
       e.target[0].focus()
     }
