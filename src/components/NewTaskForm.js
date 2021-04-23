@@ -4,6 +4,7 @@ const NewTaskForm = ({
   taskUrgent,
   setTaskTitle,
   setTaskUrgent,
+  loading,
 }) => {
   const handleTitle = (e) => {
     setTaskTitle(e.target.value)
@@ -25,6 +26,7 @@ const NewTaskForm = ({
           onChange={handleTitle}
           autoComplete="off"
           autoFocus={true}
+          disabled={loading}
         />
         <label htmlFor="title">Task name</label>
       </div>
@@ -35,12 +37,17 @@ const NewTaskForm = ({
           className="form-check-input"
           checked={taskUrgent}
           onChange={handleUrgent}
+          disabled={loading}
         />{' '}
         <label htmlFor="urgent" className="form-check-label">
           Urgent?
         </label>
       </div>
-      <button type="submit" className="btn btn-primary btn-lg">
+      <button
+        type="submit"
+        className="btn btn-primary btn-lg"
+        disabled={loading}
+      >
         Add to do
       </button>
     </form>

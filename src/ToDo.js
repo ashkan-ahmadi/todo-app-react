@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import NewTaskForm from './components/AddNewTask'
+import NewTaskForm from './components/NewTaskForm'
 import PageHeader from './components/PageHeader'
 import Tasks from './components/Tasks'
 import TaskCounter from './components/TaskCounter'
@@ -17,7 +17,9 @@ const ToDo = () => {
     const request = await fetch(dbURL)
     const data = await request.json()
     setTasks(data)
+    // setTimeout(() => {
     setLoading(false)
+    // }, 1000)
   }
 
   const addTaskToDatabase = async (taskTitle, taskUrgent) => {
@@ -41,20 +43,25 @@ const ToDo = () => {
     if (taskTitle) {
       setLoading(true) // fetchTasksfromDatabase() wll set it to false when it's done
 
-      addTaskToDatabase(taskTitle, taskUrgent)
-
-      fetchTasksfromDatabase() // this needs to await and run after addTaskToDatabase() but throws an error. You also need to check if addTaskToDatabase() returns success
+      addTaskToDatabase(taskTitle, taskUrgent).then((res) => {
+        if (res.id) {
+          fetchTasksfromDatabase()
+        }
+      })
 
       setTaskTitle('')
       setTaskUrgent(false)
 
+      /*       addTaskToDatabase(taskTitle, taskUrgent).then((res) => {
+        if (res.id) {
+          fetchTasksfromDatabase()
+        }
+      }) */
       e.target[0].focus()
     } else {
       e.target[0].focus()
     }
   }
-
-  if (loading) return <Loading />
 
   return (
     <>
@@ -66,9 +73,10 @@ const ToDo = () => {
           taskUrgent={taskUrgent}
           setTaskTitle={setTaskTitle}
           setTaskUrgent={setTaskUrgent}
+          loading={loading}
         />
         <TaskCounter tasks={tasks} />
-        <Tasks tasks={tasks} />
+        {loading ? <Loading /> : <Tasks tasks={tasks} />}
       </div>
     </>
   )
