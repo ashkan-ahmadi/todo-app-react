@@ -13,8 +13,9 @@ const ToDo = () => {
   const [loading, setLoading] = useState(true)
 
   const fetchTasksfromDatabase = async () => {
-    const dbURL = 'http://localhost:5000/tasks?_sort=id&_order=desc'
-    const request = await fetch(dbURL)
+    const request = await fetch(
+      'http://localhost:5000/tasks?_sort=id&_order=desc'
+    )
     const data = await request.json()
     setTasks(data)
     setLoading(false)
@@ -31,39 +32,59 @@ const ToDo = () => {
     return request
   }
 
+  const deleteTaskFromDatabase = async (taskid) => {
+    setLoading(true)
+    try {
+      const request = await fetch(`http://localhost:5000/tasks/${taskid}`, {
+        method: 'DELETE',
+      })
+
+      if (!request.ok) {
+        handleFormSubmissionError('Something wrong with the DELETE request')
+      }
+
+      await fetchTasksfromDatabase()
+    } catch (error) {
+      await handleFormSubmissionError(error)
+    }
+  }
+
+  const handleFormSubmissionError = (err = '') => {
+    console.error(`There was a problem with this request. Error: ${err}`)
+  }
+
   useEffect(() => {
     fetchTasksfromDatabase()
   }, [])
 
-  const handleFormSubmission = (e) => {
+  const formSubmission = async (e) => {
     e.preventDefault()
 
-    if (taskTitle) {
-      setLoading(true) // fetchTasksfromDatabase() wll set it to false when it's done
+    if (!taskTitle) {
+      e.target[0].focus()
+      return
+    }
 
-      async function addAndFetchTasks() {
-        const newTaskResponse = await addTaskToDatabase(taskTitle, taskUrgent)
+    setLoading(true)
 
-        if (newTaskResponse.id) {
-          fetchTasksfromDatabase()
+    try {
+      const newTaskResponse = await addTaskToDatabase(taskTitle, taskUrgent)
 
-          setTaskTitle('')
-          setTaskUrgent(false)
-
-          e.target[0].focus()
-        } else {
-          setLoading(false)
-
-          console.error(
-            'There was a problem with adding the task to the database!'
-          )
-          e.target[0].focus()
-        }
+      if (!newTaskResponse) {
+        handleFormSubmissionError()
+        e.target[0].focus()
+        return
       }
 
-      addAndFetchTasks()
-    } else {
+      await fetchTasksfromDatabase()
+
+      setTaskTitle('')
+      setTaskUrgent(false)
       e.target[0].focus()
+    } catch (error) {
+      handleFormSubmissionError()
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -72,7 +93,7 @@ const ToDo = () => {
       <div className="container mt-3">
         <PageHeader text="To Do List" />
         <NewTaskForm
-          onSubmit={handleFormSubmission}
+          onSubmit={formSubmission}
           taskTitle={taskTitle}
           taskUrgent={taskUrgent}
           setTaskTitle={setTaskTitle}
@@ -80,7 +101,14 @@ const ToDo = () => {
           loading={loading}
         />
         <TaskCounter tasks={tasks} />
-        {loading ? <Loading /> : <Tasks tasks={tasks} />}
+        {loading ? (
+          <Loading />
+        ) : (
+          <Tasks
+            tasks={tasks}
+            deleteTaskFromDatabase={deleteTaskFromDatabase}
+          />
+        )}
       </div>
     </>
   )
