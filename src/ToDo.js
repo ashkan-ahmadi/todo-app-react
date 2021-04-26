@@ -45,7 +45,7 @@ const ToDo = () => {
 
       await fetchTasksfromDatabase()
     } catch (error) {
-      await handleFormSubmissionError(error)
+      handleFormSubmissionError(error)
     }
   }
 
