@@ -14,10 +14,13 @@
 .task--urgent::after {
   content: 'URGENT';
   position: absolute;
-  bottom: -2px;
-  left: 0;
-  color: red;
-  font-size: 0.8rem;
+  bottom: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  transform-origin: center;
+  color: rgba(255, 0, 0, 0.2);
+  font-size: 2rem;
   margin: 0;
   font-weight: 600;
+  padding: 0;
 }

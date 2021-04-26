@@ -40,16 +40,16 @@ const ToDo = () => {
       })
 
       if (!request.ok) {
-        handleFormSubmissionError('Something wrong with the DELETE request')
+        consoleError('Something wrong with the DELETE request')
       }
 
       await fetchTasksfromDatabase()
     } catch (error) {
-      handleFormSubmissionError(error)
+      consoleError(error)
     }
   }
 
-  const handleFormSubmissionError = (err = '') => {
+  const consoleError = (err = '') => {
     console.error(`There was a problem with this request. Error: ${err}`)
   }
 
@@ -71,7 +71,9 @@ const ToDo = () => {
       const newTaskResponse = await addTaskToDatabase(taskTitle, taskUrgent)
 
       if (!newTaskResponse) {
-        handleFormSubmissionError()
+        consoleError(
+          'newTaskResponse inside formSubmission did not receive a response back from the server.'
+        )
         e.target[0].focus()
         return
       }
@@ -82,7 +84,7 @@ const ToDo = () => {
       setTaskUrgent(false)
       e.target[0].focus()
     } catch (error) {
-      handleFormSubmissionError()
+      consoleError()
     } finally {
       setLoading(false)
     }
