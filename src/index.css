@@ -4,21 +4,20 @@
   border-radius: 0.3rem;
   list-style-type: none;
   transition: 0.15s ease-out;
-}
-
-.task--not-urgent {
   background: #d7ffd7;
 }
 
-.task--not-urgent:hover {
-  background-color: #d0fad0;
-}
-
 .task--urgent {
-  background-color: #d82525;
-  color: #fff;
+  position: relative;
 }
 
-.task--urgent:hover {
-  background-color: #c21b1b;
+.task--urgent::after {
+  content: 'URGENT';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  color: red;
+  font-size: 0.8rem;
+  margin: 0;
+  font-weight: 600;
 }
