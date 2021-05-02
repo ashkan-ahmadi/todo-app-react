@@ -167,16 +167,14 @@ const ToDo = () => {
           loading={loading}
         />
         <TaskCounter tasks={tasks} />
-        {loading ? (
-          <Loading />
-        ) : (
-          <Tasks
-            tasks={tasks}
-            deleteTask={deleteTask}
-            toggleTaskComplete={toggleTaskComplete}
-            toggleTaskUrgent={toggleTaskUrgent}
-          />
-        )}
+
+        <Tasks
+          tasks={tasks}
+          deleteTask={deleteTask}
+          toggleTaskComplete={toggleTaskComplete}
+          toggleTaskUrgent={toggleTaskUrgent}
+        />
+
       </div>
     </>
   )

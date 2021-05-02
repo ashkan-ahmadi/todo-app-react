@@ -36,3 +36,7 @@ div#root {
   font-weight: 600;
   padding: 0;
 }
+
+.task--complete {
+  opacity: 0.5;
+}

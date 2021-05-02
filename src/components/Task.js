@@ -2,7 +2,7 @@ import Button from "./Button"
 
 const Task = ({ task, deleteTask, toggleTaskComplete, toggleTaskUrgent }) => {
   return (
-    <li key={task.id} className={`task ${task.urgent ? 'task--urgent' : ''}`}>
+    <li key={task.id} className={`task ${task.urgent ? 'task--urgent' : ''} ${task.complete ? 'task--complete' : ''}`}>
       <div className="d-flex justify-content-between align-items-center">
         <span>{task.title}</span>
         <div>
