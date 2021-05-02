@@ -10,9 +10,11 @@ const ToDo = () => {
   const [tasks, setTasks] = useState([])
   const [taskTitle, setTaskTitle] = useState('')
   const [taskUrgent, setTaskUrgent] = useState(false)
+  const [taskComplete, setTaskComplete] = useState(false)
+  const [userId, setUserId] = useState(1)
   const [loading, setLoading] = useState(true)
 
-  const fetchTasksfromDatabase = async () => {
+  const fetchTasks = async () => {
     const request = await fetch(
       'http://localhost:5000/tasks?_sort=id&_order=desc'
     )
@@ -21,18 +23,30 @@ const ToDo = () => {
     setLoading(false)
   }
 
-  const addTaskToDatabase = async (taskTitle, taskUrgent) => {
+  const fetchTask = async (id) => {
+    const res = await fetch(`http://localhost:5000/tasks/${id}`)
+    const data = await res.json()
+
+    return data
+  }
+
+  const addTask = async () => {
     let request = await fetch('http://localhost:5000/tasks', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
       },
-      body: JSON.stringify({ title: taskTitle, urgent: taskUrgent }),
+      body: JSON.stringify({
+        title: taskTitle,
+        urgent: taskUrgent,
+        userId: userId,
+        complete: taskComplete
+      }),
     }).then((res) => res.json())
     return request
   }
 
-  const deleteTaskFromDatabase = async (taskid) => {
+  const deleteTask = async (taskid) => {
     setLoading(true)
     try {
       const request = await fetch(`http://localhost:5000/tasks/${taskid}`, {
@@ -43,18 +57,68 @@ const ToDo = () => {
         consoleError('Something wrong with the DELETE request')
       }
 
-      await fetchTasksfromDatabase()
+      await fetchTasks()
     } catch (error) {
       consoleError(error)
     }
   }
+
+  const toggleTaskComplete = async (taskid) => {
+    setLoading(true)
+
+    try {
+      // https://github.com/bradtraversy/react-crash-2021/blob/master/src/App.js#L71
+      const currentTaskData = await fetchTask(taskid)
+      console.log('current task:', currentTaskData)
+      const updatedTask = { ...currentTaskData, complete: !currentTaskData.complete }
+      console.log('updated task:', updatedTask)
+
+      const request = await fetch(`http://localhost:5000/tasks/${taskid}`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(updatedTask)
+      })
+      console.log(request)
+
+      await fetchTasks()
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const toggleTaskUrgent = async (taskid) => {
+    setLoading(true)
+
+    try {
+      const currentTaskData = await fetchTask(taskid)
+      console.log('current task:', currentTaskData)
+      const updatedTask = { ...currentTaskData, urgent: !currentTaskData.urgent }
+      console.log('updated task:', updatedTask)
+
+      const request = await fetch(`http://localhost:5000/tasks/${taskid}`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(updatedTask)
+      })
+      console.log(request)
+
+      await fetchTasks()
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 
   const consoleError = (err = '') => {
     console.error(`There was a problem with this request. Error: ${err}`)
   }
 
   useEffect(() => {
-    fetchTasksfromDatabase()
+    fetchTasks()
   }, [])
 
   const formSubmission = async (e) => {
@@ -68,7 +132,7 @@ const ToDo = () => {
     setLoading(true)
 
     try {
-      const newTaskResponse = await addTaskToDatabase(taskTitle, taskUrgent)
+      const newTaskResponse = await addTask(taskTitle, taskUrgent)
 
       if (!newTaskResponse) {
         consoleError(
@@ -78,7 +142,7 @@ const ToDo = () => {
         return
       }
 
-      await fetchTasksfromDatabase()
+      await fetchTasks()
 
       setTaskTitle('')
       setTaskUrgent(false)
@@ -108,7 +172,9 @@ const ToDo = () => {
         ) : (
           <Tasks
             tasks={tasks}
-            deleteTaskFromDatabase={deleteTaskFromDatabase}
+            deleteTask={deleteTask}
+            toggleTaskComplete={toggleTaskComplete}
+            toggleTaskUrgent={toggleTaskUrgent}
           />
         )}
       </div>

@@ -1,22 +1,35 @@
-const Task = ({ task, deleteTaskFromDatabase }) => {
+import Button from "./Button"
+
+const Task = ({ task, deleteTask, toggleTaskComplete, toggleTaskUrgent }) => {
   return (
-    <li key={task.id} className={`task ${task.urgent && 'task--urgent'}`}>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
+    <li key={task.id} className={`task ${task.urgent ? 'task--urgent' : ''}`}>
+      <div className="d-flex justify-content-between align-items-center">
         <span>{task.title}</span>
-        <button
-          className="btn btn-danger d-block"
-          onClick={() => {
-            deleteTaskFromDatabase(task.id)
-          }}
-        >
-          DELETE
-        </button>
+        <div>
+          <Button
+            text={`Mark ${task.complete ? 'Incomplete' : 'Complete'}`}
+            className={`me-2 btn-sm ${task.complete ? 'btn-outline-primary' : 'btn-primary'}`}
+            onClick={() => {
+              toggleTaskComplete(task.id)
+            }}
+          />
+          <Button
+            text={`Mark ${task.urgent ? 'Not urgent' : 'Urgent'}`}
+            className={`me-2 btn-sm ${task.urgent ? 'btn-outline-success' : 'btn-success'}`}
+            task={task}
+            onClick={() => {
+              toggleTaskUrgent(task.id)
+            }}
+          />
+          <Button
+            text="DELETE"
+            className='btn-outline-danger btn-sm'
+            task={task}
+            onClick={() => {
+              deleteTask(task.id)
+            }}
+          />
+        </div>
       </div>
     </li>
   )

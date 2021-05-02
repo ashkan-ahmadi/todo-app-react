@@ -4,6 +4,7 @@
 [] Add Due Date
 [] Add sorting by Due Date
 [] Filtering option to filter by urgent/not-urgent
+[x] Mark Complete adds the task from tasks into tasksCompleted
 
 FIXME: 
 [] 
