@@ -3,7 +3,7 @@ import NewTaskForm from './components/NewTaskForm'
 import PageHeader from './components/PageHeader'
 import Tasks from './components/Tasks'
 import TaskCounter from './components/TaskCounter'
-import Loading from './components/Loading'
+// import Loading from './components/Loading'
 import './spinkit.css'
 
 const ToDo = () => {
@@ -67,11 +67,8 @@ const ToDo = () => {
     setLoading(true)
 
     try {
-      // https://github.com/bradtraversy/react-crash-2021/blob/master/src/App.js#L71
       const currentTaskData = await fetchTask(taskid)
-      console.log('current task:', currentTaskData)
       const updatedTask = { ...currentTaskData, complete: !currentTaskData.complete }
-      console.log('updated task:', updatedTask)
 
       const request = await fetch(`http://localhost:5000/tasks/${taskid}`, {
         method: 'PUT',
@@ -80,7 +77,6 @@ const ToDo = () => {
         },
         body: JSON.stringify(updatedTask)
       })
-      console.log(request)
 
       await fetchTasks()
     } catch (error) {
@@ -93,9 +89,7 @@ const ToDo = () => {
 
     try {
       const currentTaskData = await fetchTask(taskid)
-      console.log('current task:', currentTaskData)
       const updatedTask = { ...currentTaskData, urgent: !currentTaskData.urgent }
-      console.log('updated task:', updatedTask)
 
       const request = await fetch(`http://localhost:5000/tasks/${taskid}`, {
         method: 'PUT',
@@ -104,7 +98,6 @@ const ToDo = () => {
         },
         body: JSON.stringify(updatedTask)
       })
-      console.log(request)
 
       await fetchTasks()
     } catch (error) {
