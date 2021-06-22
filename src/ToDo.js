@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react'
 import NewTaskForm from './components/NewTaskForm'
 import PageHeader from './components/PageHeader'
 import Tasks from './components/Tasks'
-import TaskCounter from './components/TaskCounter'
-// import Loading from './components/Loading'
 import './spinkit.css'
 
 const ToDo = () => {
@@ -159,15 +157,12 @@ const ToDo = () => {
           setTaskUrgent={setTaskUrgent}
           loading={loading}
         />
-        <TaskCounter tasks={tasks} />
-
         <Tasks
           tasks={tasks}
           deleteTask={deleteTask}
           toggleTaskComplete={toggleTaskComplete}
           toggleTaskUrgent={toggleTaskUrgent}
         />
-
       </div>
     </>
   )

@@ -5,6 +5,7 @@
 [] Add sorting by Due Date
 [] Filtering option to filter by urgent/not-urgent
 [x] Mark Complete adds the task from tasks into tasksCompleted
+[] task counter must show how many incomplete tasks there are, not all the tasks
 
 FIXME: 
 [] 
