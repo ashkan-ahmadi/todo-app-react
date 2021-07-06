@@ -46,7 +46,7 @@ const NewTaskForm = ({
       <button
         type="submit"
         className="btn btn-primary btn-lg"
-        disabled={loading}
+        disabled={loading || !taskTitle.trim()}
       >
         Add to do
       </button>

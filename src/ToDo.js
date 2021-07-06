@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import NewTaskForm from './components/NewTaskForm'
 import PageHeader from './components/PageHeader'
 import Tasks from './components/Tasks'
@@ -52,11 +54,14 @@ const ToDo = () => {
       })
 
       if (!request.ok) {
-        consoleError('Something wrong with the DELETE request')
+        toast.error('Something wrong! Could not delete task!')
+        consoleError('Something wrong! Could not delete task!')
       }
 
       await fetchTasks()
+      toast.success('Task deleted successfully!')
     } catch (error) {
+      toast.error('Oops! Something went wrong with the DELETE request!')
       consoleError(error)
     }
   }
@@ -99,18 +104,14 @@ const ToDo = () => {
 
       await fetchTasks()
     } catch (error) {
+      toast.error(`Oops! There was an error: ${error}`)
       console.error(error);
     }
   }
 
-
   const consoleError = (err = '') => {
     console.error(`There was a problem with this request. Error: ${err}`)
   }
-
-  useEffect(() => {
-    fetchTasks()
-  }, [])
 
   const formSubmission = async (e) => {
     e.preventDefault()
@@ -132,7 +133,7 @@ const ToDo = () => {
         e.target[0].focus()
         return
       }
-
+      toast.success('✔️ Task added successfully')
       await fetchTasks()
 
       setTaskTitle('')
@@ -145,8 +146,22 @@ const ToDo = () => {
     }
   }
 
+  useEffect(() => {
+    fetchTasks()
+  }, [])
+
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover />
       <div className="container mt-3">
         <PageHeader text="To Do List" />
         <NewTaskForm
